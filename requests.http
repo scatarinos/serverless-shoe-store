@@ -1,0 +1,7 @@
+@endpoint = https://3picvbypwl.execute-api.eu-west-1.amazonaws.com/prod/
+
+###
+GET {{endpoint}}/pingts
+
+###
+GET {{endpoint}}/pingpy
