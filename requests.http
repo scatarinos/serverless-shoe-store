@@ -5,3 +5,36 @@ GET {{endpoint}}/pingts
 
 ###
 GET {{endpoint}}/pingpy
+
+
+##########
+# shoes
+#########
+### POST shoes
+POST {{endpoint}}/shoes
+
+### GET shoes
+GET {{endpoint}}/shoes
+
+### PUT shoes
+PUT {{endpoint}}/shoes
+
+### DELETE shoes
+DELETE {{endpoint}}/shoes
+
+
+##########
+# orders
+#########
+### POST shoes
+POST {{endpoint}}/orders
+
+### GET shoes
+GET {{endpoint}}/orders
+
+### PUT shoes
+PUT {{endpoint}}/orders
+
+### DELETE shoes
+DELETE {{endpoint}}/orders
+
