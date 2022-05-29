@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Debug Local Ts File",
+            "name": "Typescript Local File",
             "runtimeArgs": [
                 "-r",
                 "ts-node/register"
@@ -15,6 +15,17 @@
             "args": [
                 "${relativeFile}"
             ],
+            "env": {
+                "AWS_REGION": "eu-west-1",
+                "AWS_PROFILE": "sergio",
+            }
+        },
+        {
+            "type": "python",
+            "request": "launch",
+            "name": "Python Local File",
+            "program": "${file}",
+            "console": "integratedTerminal",            
             "env": {
                 "AWS_REGION": "eu-west-1",
                 "AWS_PROFILE": "sergio",
