@@ -24,10 +24,10 @@ export class GenericTable {
     private table: Table
     private props: TableProps
 
-    private createLambda: NodejsFunction | Function | undefined
-    private readLambda: NodejsFunction | Function | undefined
-    private updateLambda: NodejsFunction | Function | undefined
-    private deleteLambda: NodejsFunction | Function | undefined
+    public createLambda: NodejsFunction | Function | undefined
+    public readLambda: NodejsFunction | Function | undefined
+    public updateLambda: NodejsFunction | Function | undefined
+    public deleteLambda: NodejsFunction | Function | undefined
 
     public createLambdaIntegration: LambdaIntegration
     public readLambdaIntegration: LambdaIntegration

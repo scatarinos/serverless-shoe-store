@@ -1,0 +1,15 @@
+import os
+import sys
+import boto3
+
+# os['TABLE_NAMESPACE'] = 'ShoeStore'
+# add source dir to path
+source_path = os.path.realpath('.') + '/lib/services/shoes/py'
+print('\n')
+print(source_path)
+sys.path.append(source_path)
+
+from read import handler
+result = handler({}, {})
+print(result)
+

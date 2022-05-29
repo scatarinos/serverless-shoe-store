@@ -15,7 +15,7 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
                 { user: user, },
                 process.env.JWT_SECRET || 'NOT_SO_SECRET',
                 {
-                    expiresIn: '2h'
+                    expiresIn: '8h'
                 }
             )
             return {

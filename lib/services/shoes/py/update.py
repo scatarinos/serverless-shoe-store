@@ -1,13 +1,16 @@
+import os
 import json
 import boto3
 
-
 def handler(event, context):
-    print('request: {}'.format(json.dumps(event)))
+
+    TABLE_NAMESPACE = os.environ["TABLE_NAMESPACE"]
+    TABLE_NAME = '{}.shoes'.format(TABLE_NAMESPACE)
+
     return {
         'statusCode': 200,
         'headers': {
             'Content-Type': 'application/json'
         },
-        'body': 'Update Shoes logic here {}'.format(event.get('path', 'no-path'))
+        'body': 'Update for {}: Not Implemented Yet!'.format(TABLE_NAME)
     }

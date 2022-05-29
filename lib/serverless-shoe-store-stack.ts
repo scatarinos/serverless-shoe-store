@@ -5,9 +5,11 @@ import { Construct } from 'constructs';
 import { Runtime, Function, Code, Handler } from 'aws-cdk-lib/aws-lambda'
 import { join } from 'path';
 import { GenericTable } from './dynamo/generic-table';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 import { } from './services/auth/authorization'
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 export class ServerlessShoeStoreStack extends Stack {
 
   private namespace = 'ShoeStore'
@@ -21,7 +23,7 @@ export class ServerlessShoeStoreStack extends Stack {
     createLambdaPath: 'py/create',
     readLamdaPath: 'py/read',
     updateLambdaPath: 'py/update',
-    deleteLambdaPath: 'ts/delete',
+    deleteLambdaPath: 'py/delete',
     secondaryIndexes: ['brand']
   })
   
@@ -32,7 +34,7 @@ export class ServerlessShoeStoreStack extends Stack {
     createLambdaPath: 'py/create',
     readLamdaPath: 'py/read',
     updateLambdaPath: 'py/update',
-    deleteLambdaPath: 'ts/delete',
+    deleteLambdaPath: 'py/delete',
   })
 
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -64,7 +66,7 @@ export class ServerlessShoeStoreStack extends Stack {
     // shoes API Integrations
     const shoesResource = this.api.root.addResource('shoes')
     shoesResource.addMethod('POST', this.shoesTable.createLambdaIntegration, { authorizer })
-    shoesResource.addMethod('GET', this.shoesTable.readLambdaIntegration, { authorizer })
+    shoesResource.addMethod('GET', this.shoesTable.readLambdaIntegration) // public
     shoesResource.addMethod('PUT', this.shoesTable.updateLambdaIntegration, { authorizer })
     shoesResource.addMethod('DELETE', this.shoesTable.deleteLambdaIntegration, { authorizer })
 
@@ -76,6 +78,20 @@ export class ServerlessShoeStoreStack extends Stack {
     ordersResource.addMethod('DELETE', this.ordersTable.deleteLambdaIntegration, { authorizer })
 
 
+
+    // 👇 create the s3 bucket
+    const bucket1 = new Bucket(this, 'orders', {
+      // removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
+    const s3Policy = new PolicyStatement()
+    s3Policy.addActions('s3:ListAllMyBuckets')
+    s3Policy.addActions('s3:PutObject')
+    s3Policy.addResources('*')
+    this.ordersTable.createLambda!.addToRolePolicy(s3Policy)
+
+    
+        
     /* pong demo endpoints */
     const pingLambdaNodejs = new NodejsFunction(this, 'pingLambdaNodejs', {
       entry: (join(__dirname, '.', 'services', 'ping-ts', 'ping.ts')),

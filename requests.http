@@ -1,6 +1,6 @@
 @endpoint = https://3picvbypwl.execute-api.eu-west-1.amazonaws.com/prod/
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidXNlckBhLnB0IiwiaWF0IjoxNjUzODE1ODU4LCJleHAiOjE2NTM4MjMwNTh9.8N7pGkSRto9y3VB30FztwKUiA-QzYdME8gYt3uZ4V4U
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidXNlckBhLnB0IiwiaWF0IjoxNjUzODUzMjczLCJleHAiOjE2NTM4ODIwNzN9.3rXCPbefRBPochI4aT3c0RhBMbprHmYkVYbH0aDeR-Q
 
 ###
 POST {{endpoint}}/authentication HTTP/1.1
@@ -26,7 +26,11 @@ POST {{endpoint}}/shoes
 Authorization: {{token}}
 
 ### GET shoes
-GET {{endpoint}}/shoes
+GET {{endpoint}}/shoes?id=pc6xlsonay&dummy=abc
+Authorization: {{token}}
+
+### GET shoes
+GET {{endpoint}}/shoes?brand2=Geox
 Authorization: {{token}}
 
 ### PUT shoes
@@ -44,6 +48,23 @@ Authorization: {{token}}
 ### POST shoes
 POST {{endpoint}}/orders
 Authorization: {{token}}
+
+{
+    "client": "New CLient",
+    "shipping": {
+        "address": "Rua X",
+        "city": "Lisbon",
+        "zip": "1000"
+    },
+    "lines": [
+        {
+            "reference": "AD#01",
+            "size": "41",
+            "price": "50.20"
+        }
+    ]
+}
+
 
 ### GET shoes
 GET {{endpoint}}/orders
