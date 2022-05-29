@@ -7,6 +7,7 @@ import { LambdaIntegration } from 'aws-cdk-lib/aws-apigateway'
 
 
 export interface TableProps {
+    tableNamespace: string
     tableName: string
     primaryKey: string
     createLambdaPath?: string
@@ -43,18 +44,49 @@ export class GenericTable {
     
     private initialize() {
         this.createTable()
+        this.addSecondaryIndexes()
         this.createLambdas()
+        this.grantTableRights()
     }
     
 
     private createTable () {
-        this.table = new Table(this.stack, this.props.tableName, {
+        this.table = new Table(this.stack, `${this.props.tableNamespace}.${this.props.tableName}`, {
             partitionKey: {
                 name: this.props.primaryKey,
                 type: AttributeType.STRING
             },
-            tableName: this.props.tableName
+            tableName: `${this.props.tableNamespace}.${this.props.tableName}`
         })
+    }
+
+    private addSecondaryIndexes() {
+        if( this.props.secondaryIndexes ) {
+            for (const secondaryIndex of this.props.secondaryIndexes) {
+                this.table.addGlobalSecondaryIndex({
+                    indexName: secondaryIndex,
+                    partitionKey: {
+                        name: secondaryIndex,
+                        type: AttributeType.STRING
+                    },                    
+                })
+            }
+        }
+    }
+
+    private grantTableRights() {
+        if(this.createLambda) {
+            this.table.grantWriteData(this.createLambda)
+        }
+        if(this.readLambda) {
+            this.table.grantReadData(this.readLambda)
+        }
+        if (this.updateLambda) {
+            this.table.grantWriteData(this.updateLambda)
+        }
+        if (this.deleteLambda) {
+            this.table.grantWriteData(this.deleteLambda)
+        }
     }
 
     private createLambdas() {
@@ -115,12 +147,13 @@ export class GenericTable {
     private createSingleLambdaNodejs(entry: string, name: string): NodejsFunction {
         console.log('::: entry', entry)
         console.log('::: name', name)
-        const lambdaId = `${this.props.tableName}-ts-${name}` 
+        const lambdaId = `${this.props.tableNamespace}-${this.props.tableName}-ts-${name}` 
         return new NodejsFunction(this.stack, lambdaId, {
             entry: entry,
             handler: 'handler',
             functionName: lambdaId,
             environment: {
+                TABLE_NAMESPACE: this.props.tableNamespace,
                 TABLE_NAME: this.props.tableName,
                 PRIMARY_KEY: this.props.primaryKey
             }
@@ -128,13 +161,19 @@ export class GenericTable {
     }
 
     private createSingleLambdaPython(entry: string, name: string): Function {
-        const lambdaId = `${this.props.tableName}-py-${name}` 
+        const lambdaId = `${this.props.tableNamespace}-${this.props.tableName}-py-${name}` 
         console.log(':::: entry ', entry)
         console.log(':::: name ', name)
         return new Function(this.stack, lambdaId, {
             runtime: Runtime.PYTHON_3_8,
             code: Code.fromAsset(entry),
-            handler: `${name}.handler`
+            handler: `${name}.handler`,
+            functionName: lambdaId,
+            environment: {
+                TABLE_NAMESPACE: this.props.tableNamespace,
+                TABLE_NAME: this.props.tableName,
+                PRIMARY_KEY: this.props.primaryKey
+            }
         })
     }
 

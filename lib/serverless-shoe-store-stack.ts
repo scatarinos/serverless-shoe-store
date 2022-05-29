@@ -10,20 +10,24 @@ import { GenericTable } from './dynamo/generic-table';
 import { } from './services/auth/authorization'
 export class ServerlessShoeStoreStack extends Stack {
 
-  private api = new RestApi(this, 'ShoeStoreApi')
+  private namespace = 'ShoeStore'
 
+  private api = new RestApi(this, 'ShoeStoreApi')
+  
   private shoesTable = new GenericTable(this, {
-    tableName: 'shoes',
+    tableNamespace: `${this.namespace}`,
+    tableName: `shoes`,
     primaryKey: 'id',
     createLambdaPath: 'py/create',
     readLamdaPath: 'py/read',
     updateLambdaPath: 'py/update',
     deleteLambdaPath: 'ts/delete',
-    // secondaryIndexes: ['brand']
+    secondaryIndexes: ['brand']
   })
   
   private ordersTable = new GenericTable(this, {
-    tableName: 'orders',
+    tableNamespace: `${this.namespace}`,
+    tableName: `orders`,
     primaryKey: 'id',
     createLambdaPath: 'py/create',
     readLamdaPath: 'py/read',
