@@ -1,0 +1,317 @@
+{
+    "ShoeStore.shoes": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "rxh1p1qkvx"
+                    },
+                    "reference": {
+                        "S": "PM#01"
+                    },
+                    "brand": {
+                        "S": "Puma"
+                    },
+                    "sizes": {
+                        "SS": [
+                            "40",
+                            "41",
+                            "42"
+                        ]
+                    },
+                    "price": {
+                        "N": "49.50"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "pc6xlsonay"
+                    },
+                    "reference": {
+                        "S": "PM#02"
+                    },
+                    "brand": {
+                        "S": "Puma"
+                    },
+                    "sizes": {
+                        "SS": [
+                            "41",
+                            "42",
+                            "43"
+                        ]
+                    },
+                    "price": {
+                        "N": "60.50"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "gy7hydsjbj"
+                    },
+                    "reference": {
+                        "S": "AD#01"
+                    },
+                    "brand": {
+                        "S": "Adidas"
+                    },
+                    "sizes": {
+                        "SS": [
+                            "40",
+                            "41",
+                            "42"
+                        ]
+                    },
+                    "price": {
+                        "N": "65.00"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "e8mgxxrzj7g"
+                    },
+                    "reference": {
+                        "S": "AD#02"
+                    },
+                    "brand": {
+                        "S": "Adidas"
+                    },
+                    "sizes": {
+                        "SS": [
+                            "39",
+                            "40",
+                            "41",
+                            "42",
+                            "43",
+                            "44"
+                        ]
+                    },
+                    "price": {
+                        "N": "45.00"
+                    }
+                }
+            }
+        },        
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "vh3l1p3zpqb"
+                    },
+                    "reference": {
+                        "S": "AD#03"
+                    },
+                    "brand": {
+                        "S": "Adidas"
+                    },
+                    "sizes": {
+                        "SS": [
+                            "39",
+                            "40",
+                            "41",
+                            "42",
+                            "43",
+                            "44"
+                        ]
+                    },
+                    "price": {
+                        "N": "80.00"
+                    }
+                }
+            }
+        },                
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "dyda2fe6khu"
+                    },
+                    "reference": {
+                        "S": "BS#01"
+                    },
+                    "brand": {
+                        "S": "Boss"
+                    },
+                    "sizes": {
+                        "SS": [
+                            "40",
+                            "41",
+                            "42"
+                        ]
+                    },
+                    "price": {
+                        "N": "80.90"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "8i6exn7v9yb"
+                    },
+                    "reference": {
+                        "S": "BS#02"
+                    },
+                    "brand": {
+                        "S": "Boss"
+                    },
+                    "sizes": {
+                        "SS": [
+                            "41",
+                            "42",
+                            "43",
+                            "44",
+                            "45"
+                        ]
+                    },
+                    "price": {
+                        "N": "80.00"
+                    }
+                }
+            }
+        },        
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "efmz2fljxdq"
+                    },
+                    "reference": {
+                        "S": "CR#01"
+                    },
+                    "brand": {
+                        "S": "Crocs"
+                    },
+                    "sizes": {
+                        "SS": [
+                            "40",
+                            "41",
+                            "42"
+                        ]
+                    },
+                    "price": {
+                        "N": "50"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "e7fjf5x49ae"
+                    },
+                    "reference": {
+                        "S": "CR#02"
+                    },
+                    "brand": {
+                        "S": "Crocs"
+                    },
+                    "sizes": {
+                        "SS": [
+                            "38",
+                            "39",
+                            "40",
+                            "41"
+                        ]
+                    },
+                    "price": {
+                        "N": "45"
+                    }
+                }
+            }
+        },        
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "y0osjwzq2j"
+                    },
+                    "reference": {
+                        "S": "GX#01"
+                    },
+                    "brand": {
+                        "S": "Geox"
+                    },
+                    "sizes": {
+                        "SS": [
+                            "40",
+                            "41",
+                            "42"
+                        ]
+                    },
+                    "price": {
+                        "N": "50.00"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "2e4y5zflwto"
+                    },
+                    "reference": {
+                        "S": "GX#02"
+                    },
+                    "brand": {
+                        "S": "Geox"
+                    },
+                    "sizes": {
+                        "SS": [
+                            "38",
+                            "39",
+                            "40",
+                            "41",
+                            "42"
+                        ]
+                    },
+                    "price": {
+                        "N": "55.00"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "4grg2peursb"
+                    },
+                    "reference": {
+                        "S": "GX#03"
+                    },
+                    "brand": {
+                        "S": "Geox"
+                    },
+                    "sizes": {
+                        "SS": [
+                            "38",
+                            "39",
+                            "40",
+                            "41",
+                            "42"
+                        ]
+                    },
+                    "price": {
+                        "N": "65.00"
+                    }
+                }
+            }
+        }
+    ]
+}
