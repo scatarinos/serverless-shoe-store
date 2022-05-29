@@ -17,7 +17,17 @@ def handler(event, context):
     id = str(uuid.uuid4())
     date = datetime.datetime.now().isoformat()[:19]
     
+    # TODO: fix this hack 
     payload = event.get('body')
+    try:
+        payload = json.loads(event.get('body'))
+    except Exception as err:
+        pass
+    
+    try:
+        payload['lines'] = json.loads(payload['lines'])
+    except Exception as err:
+        pass    
     
     lines = [
         {
