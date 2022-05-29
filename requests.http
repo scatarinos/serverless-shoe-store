@@ -1,5 +1,16 @@
 @endpoint = https://3picvbypwl.execute-api.eu-west-1.amazonaws.com/prod/
 
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidXNlckBhLnB0IiwiaWF0IjoxNjUzODE1ODU4LCJleHAiOjE2NTM4MjMwNTh9.8N7pGkSRto9y3VB30FztwKUiA-QzYdME8gYt3uZ4V4U
+
+###
+POST {{endpoint}}/authentication HTTP/1.1
+Content-Type: application/json
+
+{
+  "user": "user@a.pt",
+  "password": "password"
+}
+
 ###
 GET {{endpoint}}/pingts
 
@@ -12,15 +23,19 @@ GET {{endpoint}}/pingpy
 #########
 ### POST shoes
 POST {{endpoint}}/shoes
+Authorization: {{token}}
 
 ### GET shoes
 GET {{endpoint}}/shoes
+Authorization: {{token}}
 
 ### PUT shoes
 PUT {{endpoint}}/shoes
+Authorization: {{token}}
 
 ### DELETE shoes
 DELETE {{endpoint}}/shoes
+Authorization: {{token}}
 
 
 ##########
@@ -28,13 +43,20 @@ DELETE {{endpoint}}/shoes
 #########
 ### POST shoes
 POST {{endpoint}}/orders
+Authorization: {{token}}
 
 ### GET shoes
 GET {{endpoint}}/orders
+Authorization: {{token}}
+
 
 ### PUT shoes
 PUT {{endpoint}}/orders
+Authorization: {{token}}
+
 
 ### DELETE shoes
 DELETE {{endpoint}}/orders
+Authorization: {{token}}
+
 

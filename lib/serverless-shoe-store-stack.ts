@@ -1,5 +1,5 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
-import { LambdaIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
+import { LambdaIntegration, RestApi, CfnAuthorizer, TokenAuthorizer } from 'aws-cdk-lib/aws-apigateway';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 import { Runtime, Function, Code, Handler } from 'aws-cdk-lib/aws-lambda'
@@ -7,6 +7,7 @@ import { join } from 'path';
 import { GenericTable } from './dynamo/generic-table';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
+import { } from './services/auth/authorization'
 export class ServerlessShoeStoreStack extends Stack {
 
   private api = new RestApi(this, 'ShoeStoreApi')
@@ -34,19 +35,41 @@ export class ServerlessShoeStoreStack extends Stack {
     super(scope, id, props);
 
 
+    // Authentication
+    const authenticationFn = new NodejsFunction(this, 'ShoeStoreApiBasicAuthAuthentication', {
+      entry: (join(__dirname, '.', 'services', 'auth', 'authentication.ts')),
+      handler: 'handler',
+    });
+    const authenticationIntegration = new LambdaIntegration(authenticationFn)
+    const authenticationResource = this.api.root.addResource('authentication')
+    authenticationResource.addMethod('POST', authenticationIntegration)
+
+
+    // Authorizer
+    const authorizerFn = new NodejsFunction(this, 'ShoeStoreApiBasicAuthAuthorizer', {
+      entry: (join(__dirname, '.', 'services', 'auth', 'authorization.ts')),
+      handler: 'authorizer',
+    });
+
+    const authorizer = new TokenAuthorizer(this, 'ShoeStoreApiCustomBasicAuthAuthorizer', {
+      handler: authorizerFn,
+      identitySource: 'method.request.header.Authorization',
+    });
+
+    
     // shoes API Integrations
     const shoesResource = this.api.root.addResource('shoes')
-    shoesResource.addMethod('POST', this.shoesTable.createLambdaIntegration)
-    shoesResource.addMethod('GET', this.shoesTable.readLambdaIntegration)
-    shoesResource.addMethod('PUT', this.shoesTable.updateLambdaIntegration)
-    shoesResource.addMethod('DELETE', this.shoesTable.deleteLambdaIntegration)
+    shoesResource.addMethod('POST', this.shoesTable.createLambdaIntegration, { authorizer })
+    shoesResource.addMethod('GET', this.shoesTable.readLambdaIntegration, { authorizer })
+    shoesResource.addMethod('PUT', this.shoesTable.updateLambdaIntegration, { authorizer })
+    shoesResource.addMethod('DELETE', this.shoesTable.deleteLambdaIntegration, { authorizer })
 
     // orders API Integrations
     const ordersResource = this.api.root.addResource('orders')
-    ordersResource.addMethod('POST', this.ordersTable.createLambdaIntegration)
-    ordersResource.addMethod('GET', this.ordersTable.readLambdaIntegration)
-    ordersResource.addMethod('PUT', this.ordersTable.updateLambdaIntegration)
-    ordersResource.addMethod('DELETE', this.ordersTable.deleteLambdaIntegration)
+    ordersResource.addMethod('POST', this.ordersTable.createLambdaIntegration, { authorizer })
+    ordersResource.addMethod('GET', this.ordersTable.readLambdaIntegration, { authorizer })
+    ordersResource.addMethod('PUT', this.ordersTable.updateLambdaIntegration, { authorizer })
+    ordersResource.addMethod('DELETE', this.ordersTable.deleteLambdaIntegration, { authorizer })
 
 
     /* pong demo endpoints */
