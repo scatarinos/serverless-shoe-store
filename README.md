@@ -1,3 +1,15 @@
+# deployment instructions
+## backend
+- git clone
+- cd server serverless-shoe-store
+- npm install
+- cdk deploy
+
+## frontend (react app)
+- work in progress
+
+
+
 # Full-stack web developer challenge
 
 In this test, you'll write a small web application to manage a shoe store.
