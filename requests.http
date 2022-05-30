@@ -1,6 +1,10 @@
 @endpoint = https://3picvbypwl.execute-api.eu-west-1.amazonaws.com/prod/
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidXNlckBhLnB0IiwiaWF0IjoxNjUzODUzMjczLCJleHAiOjE2NTM4ODIwNzN9.3rXCPbefRBPochI4aT3c0RhBMbprHmYkVYbH0aDeR-Q
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidXNlckBhLnB0IiwiaWF0IjoxNjUzOTA2MTcyLCJleHAiOjE2NTM5MzQ5NzJ9.K_-j9bZ2Ma4G-RrtVqPr_35aKU7Q-ho76oomWyvZvRo
+
+
+OPTIONS {{endpoint}}/authentication HTTP/1.1
+
 
 ###
 POST {{endpoint}}/authentication HTTP/1.1

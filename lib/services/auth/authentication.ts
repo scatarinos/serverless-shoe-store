@@ -20,6 +20,12 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
             )
             return {
                 statusCode: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+        
+                },
                 body: JSON.stringify({
                     token
                 })

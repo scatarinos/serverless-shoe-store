@@ -93,7 +93,13 @@ export class ServerlessShoeStoreStack extends Stack {
       handler: 'handler',
     });
     const authenticationIntegration = new LambdaIntegration(authenticationFn)
-    const authenticationResource = this.api.root.addResource('authentication')
+    const authenticationResource = this.api.root.addResource('authentication',       {
+        defaultCorsPreflightOptions: {
+          allowOrigins: ['http://localhost:3000'],
+          allowHeaders: Cors.DEFAULT_HEADERS.concat(['x-api-key'])        
+        }
+      }
+    )
     authenticationResource.addMethod('POST', authenticationIntegration)
 
 
@@ -111,12 +117,12 @@ export class ServerlessShoeStoreStack extends Stack {
     
     // shoes API Integrations
     const shoesResource = this.api.root.addResource('shoes',
-    {
-      defaultCorsPreflightOptions: {
-        allowOrigins: ['http://localhost:3000'],
-        allowHeaders: Cors.DEFAULT_HEADERS.concat(['x-api-key'])        
+      {
+        defaultCorsPreflightOptions: {
+          allowOrigins: ['http://localhost:3000'],
+          allowHeaders: Cors.DEFAULT_HEADERS.concat(['x-api-key'])        
+        }
       }
-    }
     )
     shoesResource.addMethod('POST', this.shoesTable.createLambdaIntegration, { authorizer })
     shoesResource.addMethod('GET', this.shoesTable.readLambdaIntegration) // public
@@ -124,7 +130,14 @@ export class ServerlessShoeStoreStack extends Stack {
     shoesResource.addMethod('DELETE', this.shoesTable.deleteLambdaIntegration, { authorizer })
 
     // orders API Integrations
-    const ordersResource = this.api.root.addResource('orders')
+    const ordersResource = this.api.root.addResource('orders',
+      {
+        defaultCorsPreflightOptions: {
+          allowOrigins: ['http://localhost:3000'],
+          allowHeaders: Cors.DEFAULT_HEADERS.concat(['x-api-key'])        
+        }
+      }  
+    )
     ordersResource.addMethod('POST', this.ordersTable.createLambdaIntegration, { authorizer })
     ordersResource.addMethod('GET', this.ordersTable.readLambdaIntegration, { authorizer })
     ordersResource.addMethod('PUT', this.ordersTable.updateLambdaIntegration, { authorizer })

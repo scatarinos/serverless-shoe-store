@@ -67,15 +67,28 @@ def handler(event, context):
         if 'orders' in bucket.name:
             my_bucket = bucket
     if (my_bucket):
+        key = 'order-{}.json'.format(id)
         payload['id'] = id
         payload['date'] = date
-        s3_client.put_object(Body=json.dumps(payload), Bucket=my_bucket.name, Key='order-{}.json'.format(id))
+        # ACL='public-read',
+        s3_client.put_object(
+            Body=json.dumps(payload), Bucket=my_bucket.name, Key=key)
+
+        # TODO: get pre signed url
+        # location = s3_client.get_bucket_location(Bucket=my_bucket)['LocationConstraint']
+        #url = "https://s3-%s.amazonaws.com/%s/%s" % (location, my_bucket.name, key)
 
 
     return {
         'statusCode': 200,
         'headers': {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
         },
-        'body': 'Item id={} for {} created'.format(id, TABLE_NAME)
+        'body':  json.dumps({
+            'id': id,
+            'message': 'Item id={} for {} created'.format(id, TABLE_NAME),
+            'data': payload
+        }) 
     }

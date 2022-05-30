@@ -65,7 +65,7 @@ def handler(event, context):
         'headers': {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-           'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
 
         },
         'body': json.dumps(result_dict)
