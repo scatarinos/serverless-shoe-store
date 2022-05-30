@@ -29,8 +29,8 @@ export class ServerlessShoeStoreStack extends Stack {
       allowHeaders: Cors.DEFAULT_HEADERS,
       allowMethods: ['OPTIONS', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
       allowCredentials: true,
-      allowOrigins: ['http://localhost:3000']
-      //allowOrigins: ['*'],
+      // allowOrigins: ['http://localhost:3000']
+      allowOrigins: ['*'],
       //allowOrigins: Cors.ALL_ORIGINS,
       
     },
@@ -95,7 +95,8 @@ export class ServerlessShoeStoreStack extends Stack {
     const authenticationIntegration = new LambdaIntegration(authenticationFn)
     const authenticationResource = this.api.root.addResource('authentication',       {
         defaultCorsPreflightOptions: {
-          allowOrigins: ['http://localhost:3000'],
+          // allowOrigins: ['http://localhost:3000'],
+          allowOrigins: ['*'],
           allowHeaders: Cors.DEFAULT_HEADERS.concat(['x-api-key'])        
         }
       }
@@ -119,7 +120,8 @@ export class ServerlessShoeStoreStack extends Stack {
     const shoesResource = this.api.root.addResource('shoes',
       {
         defaultCorsPreflightOptions: {
-          allowOrigins: ['http://localhost:3000'],
+          // allowOrigins: ['http://localhost:3000'],
+          allowOrigins: ['*'],
           allowHeaders: Cors.DEFAULT_HEADERS.concat(['x-api-key'])        
         }
       }
@@ -133,7 +135,8 @@ export class ServerlessShoeStoreStack extends Stack {
     const ordersResource = this.api.root.addResource('orders',
       {
         defaultCorsPreflightOptions: {
-          allowOrigins: ['http://localhost:3000'],
+          // allowOrigins: ['http://localhost:3000'],
+          allowOrigins: ['*'],
           allowHeaders: Cors.DEFAULT_HEADERS.concat(['x-api-key'])        
         }
       }  
