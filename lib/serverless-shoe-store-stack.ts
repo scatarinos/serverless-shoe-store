@@ -1,5 +1,5 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
-import { LambdaIntegration, RestApi, CfnAuthorizer, TokenAuthorizer } from 'aws-cdk-lib/aws-apigateway';
+import { LambdaIntegration, RestApi, CfnAuthorizer, TokenAuthorizer, Cors, MockIntegration, PassthroughBehavior } from 'aws-cdk-lib/aws-apigateway';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 import { Runtime, Function, Code, Handler } from 'aws-cdk-lib/aws-lambda'
@@ -14,8 +14,33 @@ export class ServerlessShoeStoreStack extends Stack {
 
   private namespace = 'ShoeStore'
 
-  private api = new RestApi(this, 'ShoeStoreApi')
+  private api = new RestApi(this, 'ShoeStoreApi', {
+    description: 'example-api',
+    // 👇 set up CORS
+    defaultCorsPreflightOptions: {
+      /*      
+      allowHeaders: [
+        'Content-Type',
+        'X-Amz-Date',
+        'Authorization',
+        'X-Api-Key',
+      ],
+      */
+      allowHeaders: Cors.DEFAULT_HEADERS,
+      allowMethods: ['OPTIONS', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+      allowCredentials: true,
+      allowOrigins: ['http://localhost:3000']
+      //allowOrigins: ['*'],
+      //allowOrigins: Cors.ALL_ORIGINS,
+      
+    },
+    
+  })
   
+
+
+
+
   private shoesTable = new GenericTable(this, {
     tableNamespace: `${this.namespace}`,
     tableName: `shoes`,
@@ -40,7 +65,28 @@ export class ServerlessShoeStoreStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-
+/*
+    const method = this.api.root.addMethod('OPTIONS', new MockIntegration({
+      integrationResponses: [
+        {
+          statusCode: "200",
+          responseParameters: {
+            "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+            "method.response.header.Access-Control-Allow-Methods": "'GET,POST,OPTIONS'",
+            "method.response.header.Access-Control-Allow-Origin": "'*'"
+          },
+          responseTemplates: {
+            "application/json": ""
+          }
+        }
+      ],
+      // passthroughBehavior: PassthroughBehavior.Never,
+      requestTemplates: {
+        "application/json": "{\"statusCode\": 200}"
+      },
+    }));
+    */
+    
     // Authentication
     const authenticationFn = new NodejsFunction(this, 'ShoeStoreApiBasicAuthAuthentication', {
       entry: (join(__dirname, '.', 'services', 'auth', 'authentication.ts')),
@@ -64,7 +110,14 @@ export class ServerlessShoeStoreStack extends Stack {
 
     
     // shoes API Integrations
-    const shoesResource = this.api.root.addResource('shoes')
+    const shoesResource = this.api.root.addResource('shoes',
+    {
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['http://localhost:3000'],
+        allowHeaders: Cors.DEFAULT_HEADERS.concat(['x-api-key'])        
+      }
+    }
+    )
     shoesResource.addMethod('POST', this.shoesTable.createLambdaIntegration, { authorizer })
     shoesResource.addMethod('GET', this.shoesTable.readLambdaIntegration) // public
     shoesResource.addMethod('PUT', this.shoesTable.updateLambdaIntegration, { authorizer })

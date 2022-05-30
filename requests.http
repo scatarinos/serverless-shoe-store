@@ -26,8 +26,15 @@ POST {{endpoint}}/shoes
 Authorization: {{token}}
 
 ### GET shoes
-GET {{endpoint}}/shoes?id=pc6xlsonay&dummy=abc
+OPTIONS  {{endpoint}}/shoes?dummy=1
+
+### GET shoes
+OPTIONS {{endpoint}}/orders
 Authorization: {{token}}
+
+
+### GET shoess
+GET {{endpoint}}/shoes?dummy=1
 
 ### GET shoes
 GET {{endpoint}}/shoes?brand2=Geox
@@ -64,6 +71,11 @@ Authorization: {{token}}
         }
     ]
 }
+
+
+### GET shoes
+OPTIONS {{endpoint}}/orders
+Authorization: {{token}}
 
 
 ### GET shoes
